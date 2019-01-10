@@ -1,108 +1,69 @@
 package com.xiaobaicai.demo;
 
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
-import com.xiaobaicai.demo.activitys.AppCompatActivityWithNetWork;
-import com.xiaobaicai.demo.apiUrls.ApiUrl;
-import com.xiaobaicai.demo.datas.AjaxReceiveData;
-import com.xiaobaicai.demo.datas.AjaxSendData;
-import com.xiaobaicai.demo.datas.LoginForgetPwdSendData;
-import com.xiaobaicai.demo.tools.Ajax;
+public class MainActivity extends AppCompatActivity {
 
-import java.lang.reflect.Field;
-
-public class MainActivity extends AppCompatActivityWithNetWork {
-    private ImageView imageView1;
-    private ImageView imageView2;
+    private Button bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView1 = findViewById(R.id.iv_img1);
-        imageView2 = findViewById(R.id.iv_img2);
-        findViewById(R.id.btn1).setOnClickListener(onClickListener);
-        findViewById(R.id.btn2).setOnClickListener(onClickListener);
+        bt = (Button) findViewById(R.id.btn);
+        bt.setOnClickListener(new View.OnClickListener() {
 
-        bianLi(new AjaxSendData("xiaobaicai"));
-        //String str = Ajax.get(new AjaxSendData("18861855098"),ApiUrl.getLoginStatus(),AjaxReceiveData.class);
-        //Log.i("xiaobaicai","get请求返回的str:"+str);
-        new TestGet().start();
-    }
-
-    public class TestGet extends Thread{
-        @Override
-        public void run(){
-            AjaxReceiveData getResult;
-            getResult = Ajax.get(new AjaxSendData("18861855098"),ApiUrl.getLoginStatus());
-            Log.i("xiaobaicai","get请求返回的str:"+getResult.getCode());
-            AjaxReceiveData postResult = Ajax.post(new LoginForgetPwdSendData("18861855098","1234","1234"),ApiUrl.getLoginForgetPwd());
-            Log.i("xiaobaicai","post请求返回的code:"+postResult.getData());
-        }
-    }
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.btn1:
-                    Log.i("xiaobaicai","点击了获取图片按钮");
-                    //setImage();
-                    String url = "http://172.16.41.162:8080/hello/hello.png";
-                    setBitImg(url,imageView1,getBaseContext());
-                    break;
-                case R.id.btn2:
-                    /*
-                    Log.i("xiaobaicai","点击了获取本地图片按钮");
-                    Bitmap bitmap = null;
-                    bitmap = SDCardTools.loadBitmapFromSDCard("/storage/emulated/0/Android/data/com.xiaobaicai.demo/cache/hi.png");
-                    imageView1.setImageBitmap(bitmap);
-                    */
-                    Log.i("xiaobaicai","点击了获取图片按钮");
-                    //setImage();
-                    String url1 = "http://172.16.41.162:8080/hi.png";
-                    setBitImg(url1,imageView2,getBaseContext());
-                    break;
+            @Override
+            public void onClick(View v) {
+                showpopupWindow(v);// 显示PopupWindow
             }
-
-        }
-    };
-
-
-    private void bianLi(Object obj){
-        Field[] fields = obj.getClass().getDeclaredFields();
-        for(int i = 0 , len = fields.length; i < len; i++) {
-            // 对于每个属性，获取属性名
-            String varName = fields[i].getName();
-            try {
-                // 获取原来的访问控制权限
-                boolean accessFlag = fields[i].isAccessible();
-                // 修改访问控制权限
-                fields[i].setAccessible(true);
-                // 获取在对象f中属性fields[i]对应的对象中的变量
-                Object o;
-                try {
-                    o = fields[i].get(obj);
-
-                    if(fields[i].getName().toString() !="$change" && fields[i].getName().toString() != "serialVersionUID"){
-                        Log.i("xiaobaicai","获取对象的属性:"+varName+" = "+o);
-                    }
-
-                } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                // 恢复访问控制权限
-                fields[i].setAccessible(accessFlag);
-            } catch (IllegalArgumentException ex) {
-                ex.printStackTrace();
-            }
-        }
+        });
     }
+
+    private void showpopupWindow(View v) {
+        Button btItem1, btItem2, btItem3;
+
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View view = layoutInflater.inflate(R.layout.popwindow_layout, null);
+
+        final PopupWindow popupWindow = new PopupWindow(view, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popupwindow_background));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
+
+
+        // PopupWindow弹出位置
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+        backgroundAlpha(0.5f);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+            }
+        });
+    }
+
+    // 设置屏幕透明度
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp);
+    }
+
 }

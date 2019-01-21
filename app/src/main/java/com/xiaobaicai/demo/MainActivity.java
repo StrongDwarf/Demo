@@ -9,10 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,11 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class MainActivity extends Activity {
     private LinearLayout llContainer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +37,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         llContainer = findViewById(R.id.ll_container);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.ele_product_default,null);
+        ImageView imageView = new ImageView(this);
+        llContainer.addView(imageView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        TextView textView = new TextView(this);
-        textView.setText("添加到父元素中的节点1");
-        textView.setTextColor(Color.BLUE);
-        linearLayout.addView(textView,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(view);
-
-        llContainer.addView(linearLayout);
-
-        int[] ints = new int[]{2,2,1};
-        for(int i =0;i<ints.length;i++){
-            LinearLayout linearLayout1 = new LinearLayout(this);
-            TextView textView1 = new TextView(this);
-            textView1.setText("节点"+i);
-            linearLayout1.addView(textView1,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout1.setOrientation(LinearLayout.VERTICAL);
-            for(int j=0;j<ints[i];j++){
-                View view1 = inflater.inflate(R.layout.ele_product_default,null);
-                linearLayout1.addView(view1);
-            }
-            llContainer.addView(linearLayout1);
-        }
-
+        String url = "http://www.sucaitianxia.com/sheji/pic/200902/20090208015345473.jpg";
+        Glide.with(getBaseContext()).load(url).into(imageView);
     }
+
+
+
 }

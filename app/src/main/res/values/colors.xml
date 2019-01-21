@@ -4,7 +4,36 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="text_light">#333</color>
+    <color name="black_normal">#000000</color>  <!-- 黑色 -->
+    <color name="white_normal">#ffffff</color>  <!-- 白色 -->
 
-    <color name="image_background">#f2f2f2</color>
+    <color name="app_background">#ffffff</color>  <!-- app背景颜色 -->
+
+    <!-- 顶部导航栏颜色 -->
+    <color name="header_bar_text_normal">#898989</color>
+    <color name="header_bar_text_select">#000000</color>
+
+    <!-- 顶部title的颜色 -->
+    <color name="toolbar_header_background">#ffffff</color>
+    <color name="toolbar_header_text">#000000</color>
+
+    <!-- 主页颜色 -->
+    <color name="main_tab_item_text_select">#e37476</color>
+    <color name="main_tab_item_text_normal">#383838</color>
+
+    <!-- 按钮颜色 -->
+    <color name="button_primary_disable">#e2a0b9</color>
+    <color name="button_primary_basic">#c04374</color>
+    <color name="button_primary_click">#871a45</color>
+    <color name="button_secondary_basic">#ffffff</color>
+    <color name="button_secondary_disable">#f6f6f6</color>
+
+    <!-- 文字颜色 -->
+    <color name="text_light">#333</color>
+    <color name="text_light_sec">#898989</color>
+    <color name="text_regular">#c04374</color>
+
+    <!-- small文字颜色 -->
+    <color name="small_basic">#000</color>
+    <color name="small_disable">#bebebe</color>
 </resources>

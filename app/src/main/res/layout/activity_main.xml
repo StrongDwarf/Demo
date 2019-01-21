@@ -9,36 +9,16 @@
         android:layout_height="wrap_content"
         android:text="动态添加组件示例"
         android:id="@+id/textview"/>
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:scrollbars="none"
-        android:paddingBottom="30dp"
-        >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/lasted_activity"
+            android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginRight="20dp">
-                <ImageView
-                    android:layout_width="190dp"
-                    android:layout_height="110dp"
-                    android:background="#f2f2f2"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="自驾|穿越湖泊和中士"/>
-            </LinearLayout>
         </LinearLayout>
-    </HorizontalScrollView>
-
+    </ScrollView>
 
 </LinearLayout>
